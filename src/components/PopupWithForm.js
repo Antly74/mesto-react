@@ -37,8 +37,9 @@ function PopupWithForm ({title, name, children, isOpen, onClose, onSubmit, submi
           <button
             aria-label={submitName}
             type="submit"
-            className="popup__save-button link"
+            className={`popup__save-button link ${isValid ? '':'popup__save-button_disabled'}`}
             name="submit"
+            disabled={!isValid}
           >
             {isLoading ? submitLoadingName : submitName}
           </button>
