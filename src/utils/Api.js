@@ -8,7 +8,7 @@ class Api {
     if (res.ok) {
       return res.json();
     }
-    return Promise.reject(`Что-то пошло не так. Ошибка: ${res.status}`);
+    return Promise.reject(`Ужас-ужас, произошла ошибка: ${res.status}`);
   }
 
   getInitialCards() {

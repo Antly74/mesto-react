@@ -1,7 +1,13 @@
 function ImagePopup({card, onClose}) {
 
+  function handleOverlayClick(e) {
+    if (e.target === e.currentTarget) {
+      onClose(e);
+    }
+  }
+
   return (
-    <div className={`popup popup_type_image ${card.name === undefined ? '' : 'popup_opened'}`}>
+    <div className={`popup popup_type_image ${card._id === undefined ? '' : 'popup_opened'}`} onMouseDown={handleOverlayClick}>
       <div className="popup__figure-container">
         <figure className="popup__figure">
           {/* у картинки есть alt! Может я не понял замечания? Просмотрел все <img>, везде есть alt */}
