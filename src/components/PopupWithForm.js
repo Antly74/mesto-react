@@ -1,14 +1,18 @@
 import { useState, useEffect } from "react";
 
-function PopupWithForm ({title, name, children, isOpen, onClose, onSubmit, submitName, submitLoadingName}) {
+function PopupWithForm ({title, name, children, isOpen, onClose, onSubmit, submitName, submitLoadingName, isValid, onReset}) {
 
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (isOpen) {
-      setIsLoading(false);
+    if (!isOpen) {
+      // при плавном закрытии необходимо, чтобы reset выполнился после полного исчезновения формы
+      setTimeout(() => {
+        setIsLoading(false);
+        onReset();
+      }, 500);
     }
-  }, [isOpen]);
+  }, [isOpen, onReset]);
 
   // закрытие при нажатии на оверлей
   function handleOverlayClick(e) {

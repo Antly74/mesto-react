@@ -10,11 +10,13 @@ function ConfirmDeletePopup({card, onClose, onCardDelete}) {
     <PopupWithForm
       title="Вы уверены?"
       name="confirm"
-      isOpen={card._id != undefined}
+      isOpen={card._id !== undefined}
       onClose={onClose}
       onSubmit={handleSubmit}
       submitName="Да"
       submitLoadingName="Удаление..."
+      isValid={true}
+      onReset={() => {}}
     />
   );
 }

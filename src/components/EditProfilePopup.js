@@ -1,4 +1,5 @@
 import PopupWithForm from "./PopupWithForm";
+import InputWithValidation from "./InputWithValidation";
 import { useState, useContext, useEffect } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
@@ -6,19 +7,48 @@ function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
 
   const [name, setName] = useState('');
   const [description, setDesciption] = useState('');
+  const [isValid, setIsValid] = useState(false);
+  const [isNameValid, setIsNameValid] = useState(true);
+  const [isDescriptionValid, setIsDescriptionValid] = useState(true);
 
   const currentUser = useContext(CurrentUserContext);
 
   useEffect(() => {
-    setName(currentUser.name);
-    setDesciption(currentUser.about);
+    setName(currentUser.name || '');
+    setDesciption(currentUser.about || '');
+    // если так:
+    //   setName(currentUser.name);
+    //   setDesciption(currentUser.about);
+    // то в консоле возникает ошибка
+    //   A component is changing a controlled input to be uncontrolled. This is likely caused by the
+    //   value changing from a defined to undefined, which should not happen.
+    // ЭТО ПОТОМУ ЧТО пользователь может не успеть прогрузиться и тогда будет undefined, поэтому нужно
+    // добавить альтернативное значение
   }, [currentUser]);
+
+  function handleReset() {
+    setIsValid(false);
+    setIsNameValid(true);
+    setIsDescriptionValid(true);
+    setName(currentUser.name || '');
+    setDesciption(currentUser.about || '');
+  };
+
+  function handleNameInput(valid) {
+    setIsNameValid(valid);
+    setIsValid(valid && isDescriptionValid);
+  }
+
+  function handleDescriptionInput(valid) {
+    setIsDescriptionValid(valid);
+    setIsValid(valid && isNameValid);
+  }
 
   function handleChangeName(e) {
     setName(e.target.value);
   }
 
-  function handleChangeDesciption(e) {
+  function handleChangeDescription(e) {
     setDesciption(e.target.value);
   }
 
@@ -38,17 +68,21 @@ function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
       onSubmit={handleSubmit}
       submitName="Сохранить"
       submitLoadingName="Сохранение..."
+      isValid={isValid}
+      onReset={handleReset}
     >
-      <input
-        type="text" className="popup__input" id="profileName" name="profileName"
+      <InputWithValidation
+        isValid={isNameValid} onInputEvent={handleNameInput}
+        type="text" id="profileName"
         placeholder="Имя" minLength="2" maxLength="40" required
-        value={name} onChange={handleChangeName} />
-      <span className="popup__input-error" id="profileName-error" />
-      <input
-        type="text" className="popup__input" id="profileDesc" name="profileDesc"
+        value={name} onChange={handleChangeName}
+      />
+      <InputWithValidation
+        isValid={isDescriptionValid} onInputEvent={handleDescriptionInput}
+        type="text" id="profileDesc"
         placeholder="Описание" minLength="2" maxLength="200" required
-        value={description} onChange={handleChangeDesciption} />
-      <span className="popup__input-error" id="profileDesc-error" />
+        value={description} onChange={handleChangeDescription}
+      />
     </PopupWithForm>
   )
 }

@@ -1,15 +1,26 @@
 import PopupWithForm from "./PopupWithForm";
+import InputWithValidation from "./InputWithValidation";
 import { useRef, useState } from "react";
 
 function EditAvatarPopup({isOpen, onClose, onUpdateAvatar}) {
 
   const avatarRef = useRef();
+  const [isValid, setIsValid] = useState(false);
+  const [isAvatarUrlValid, setIsAvatarUrlValid] = useState(true);
+
+  function handleReset() {
+    avatarRef.current.value = '';
+    setIsValid(false);
+    setIsAvatarUrlValid(true);
+  };
+
+  function handleInput(valid) {
+    setIsAvatarUrlValid(valid);
+    setIsValid(valid);
+  }
 
   function handleSubmit(e) {
-    e.preventDefault();
-
     onUpdateAvatar(avatarRef.current.value);
-    avatarRef.current.value = '';
   }
 
   return (
@@ -21,9 +32,12 @@ function EditAvatarPopup({isOpen, onClose, onUpdateAvatar}) {
       onSubmit={handleSubmit}
       submitName="Сохранить"
       submitLoadingName="Сохранение..."
+      isValid={isValid}
+      onReset={handleReset}
     >
-      <input ref={avatarRef} type="url" className="popup__input" id="avatar" name="avatar" placeholder="Ссылка на картинку" required />
-      <span className="popup__input-error" id="avatar-error" />
+      <InputWithValidation
+        avatarRef={avatarRef} isValid={isAvatarUrlValid} onInputEvent={handleInput}
+        type="url" id="avatar" placeholder="Ссылка на картинку" required />
     </PopupWithForm>
   );
 }
