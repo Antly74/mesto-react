@@ -28,10 +28,6 @@ function AddPlacePopup({isOpen, onClose, onAddPlace}) {
     setIsValid(valid && isNameValid);
   }
 
-  function handleSubmit(e) {
-    onAddPlace({name, link});
-  }
-
   function handleChangeName(e) {
     setName(e.target.value);
   }
