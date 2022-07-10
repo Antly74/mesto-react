@@ -15,7 +15,6 @@ function ConfirmDeletePopup({card, onClose, onCardDelete}) {
       onSubmit={handleSubmit}
       submitName="Да"
       submitLoadingName="Удаление..."
-      isValid={true}
     />
   );
 }

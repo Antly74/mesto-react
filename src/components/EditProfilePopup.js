@@ -6,7 +6,6 @@ function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
 
   const [name, setName] = useState('');
   const [description, setDesciption] = useState('');
-  const [isValid, setIsValid] = useState(false);
 
   const currentUser = useContext(CurrentUserContext);
 
@@ -39,7 +38,6 @@ function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
       onSubmit={handleSubmit}
       submitName="Сохранить"
       submitLoadingName="Сохранение..."
-      isValid={isValid}
     >
       <input
         type="text" className="popup__input" id="profileName" name="profileName"

@@ -5,18 +5,13 @@ function AddPlacePopup({isOpen, onClose, onAddPlace}) {
 
   const [name, setName] = useState('');
   const [link, setLink] = useState('');
-  const [isValid, setIsValid] = useState(false);
 
-  useEffect(() => {
-    if (isOpen) {
-      setName('');
-      setLink('');
-    }
-  }, [isOpen]);
-
-  function handleSubmit(e) {
-    onAddPlace({name, link});
-  }
+  // useEffect(() => {
+  //   if (isOpen) {
+  //     setName('');
+  //     setLink('');
+  //   }
+  // }, [isOpen]);
 
   function handleChangeName(e) {
     setName(e.target.value);
@@ -24,6 +19,10 @@ function AddPlacePopup({isOpen, onClose, onAddPlace}) {
 
   function handleChangeLink(e) {
     setLink(e.target.value);
+  }
+
+  function handleSubmit(e) {
+    onAddPlace({name, link});
   }
 
   return (
@@ -35,7 +34,6 @@ function AddPlacePopup({isOpen, onClose, onAddPlace}) {
       onSubmit={handleSubmit}
       submitName="Создать"
       submitLoadingName="Создание..."
-      isValid={isValid}
     >
       <input
         type="text" className="popup__input" id="elementName" name="elementName"

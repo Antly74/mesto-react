@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-function PopupWithForm ({title, name, children, isOpen, onClose, onSubmit, submitName, submitLoadingName, isValid}) {
+function PopupWithForm ({title, name, children, isOpen, onClose, onSubmit, submitName, submitLoadingName}) {
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -33,9 +33,8 @@ function PopupWithForm ({title, name, children, isOpen, onClose, onSubmit, submi
           <button
             aria-label={submitName}
             type="submit"
-            className={`popup__save-button link ${isValid ? '':'popup__save-button_disabled'}`}
+            className="popup__save-button link"
             name="submit"
-            disabled={!isValid}
           >
             {isLoading ? submitLoadingName : submitName}
           </button>
