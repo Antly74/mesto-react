@@ -1,18 +1,32 @@
 import PopupWithForm from "./PopupWithForm";
-import { useState, useEffect } from "react";
+import InputWithValidation from "./InputWithValidation";
+import { useState } from "react";
 
 function AddPlacePopup({isOpen, onClose, onAddPlace}) {
 
   const [name, setName] = useState('');
   const [link, setLink] = useState('');
   const [isValid, setIsValid] = useState(false);
+  const [isNameValid, setIsNameValid] = useState(true);
+  const [isLinkValid, setIsLinkValid] = useState(true);
 
-  useEffect(() => {
-    if (isOpen) {
-      setName('');
-      setLink('');
-    }
-  }, [isOpen]);
+  function handleReset() {
+    setIsValid(false);
+    setIsNameValid(true);
+    setIsLinkValid(true);
+    setName('');
+    setLink('');
+  };
+
+  function handleNameInput(valid) {
+    setIsNameValid(valid);
+    setIsValid(valid && isLinkValid);
+  }
+
+  function handleLinkInput(valid) {
+    setIsLinkValid(valid);
+    setIsValid(valid && isNameValid);
+  }
 
   function handleSubmit(e) {
     onAddPlace({name, link});
@@ -36,17 +50,20 @@ function AddPlacePopup({isOpen, onClose, onAddPlace}) {
       submitName="Создать"
       submitLoadingName="Создание..."
       isValid={isValid}
+      onReset={handleReset}
     >
-      <input
-        type="text" className="popup__input" id="elementName" name="elementName"
+      <InputWithValidation
+        isValid={isNameValid} onInputEvent={handleNameInput}
+        type="text" id="elementName"
         placeholder="Название" minLength="2" maxLength="30" required
-        value={name} onChange={handleChangeName} />
-      <span className="popup__input-error" id="elementName-error" />
-      <input
-        type="url" className="popup__input" id="elementLink" name="elementLink"
+        value={name} onChange={handleChangeName}
+      />
+      <InputWithValidation
+        isValid={isLinkValid} onInputEvent={handleLinkInput}
+        type="url" id="elementLink"
         placeholder="Ссылка на картинку" required
-        value={link} onChange={handleChangeLink} />
-      <span className="popup__input-error" id="elementLink-error" />
+        value={link} onChange={handleChangeLink}
+      />
     </PopupWithForm>
 );
 }

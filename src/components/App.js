@@ -48,8 +48,8 @@ function App() {
       isAddPlacePopupOpen ||
       isEditAvatarPopupOpen ||
       isEditProfilePopupOpen ||
-      selectedCard._id != undefined ||
-      card2Delete._id != undefined
+      selectedCard._id !== undefined ||
+      card2Delete._id !== undefined
       )
     {
       document.addEventListener('keydown', handleKeyDown);
@@ -121,7 +121,7 @@ function App() {
   function handleCardDelete(card) {
     api.deleteCard(card._id)
       .then(() => {
-        setCards((currentCards) => currentCards.filter((c) => c._id != card._id))
+        setCards((currentCards) => currentCards.filter((c) => c._id !== card._id))
         closeAllPopups();
       })
       .catch(err => console.log(err));
