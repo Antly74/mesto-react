@@ -108,7 +108,11 @@ function App() {
     api.toggleLikes(card._id, isLiked)
       .then((newCard) => {
         // создаем новый state на основе текущего state: подменяем одну карточку в массиве
-        setCards((currentCards) => currentCards.map((c) => c._id === card._id ? newCard : c));
+        // при асинхронном выполнении необходимо устанавливать state через колбэк
+        // таким образом обеспечивается синхронный доступ к state, в случае медленной сети и быстрыми
+        // нажатиями пользователя.
+        // так неправильно: setCards(cards.map((c) => c._id === card._id ? newCard : c)); такой вызов пойдет только при синхронной работе
+        setCards(currentCards => currentCards.map((c) => c._id === card._id ? newCard : c));
       })
       .catch(err => console.log(err));
   }
@@ -121,7 +125,7 @@ function App() {
   function handleCardDelete(card) {
     api.deleteCard(card._id)
       .then(() => {
-        setCards((currentCards) => currentCards.filter((c) => c._id !== card._id))
+        setCards(currentCards => currentCards.filter((c) => c._id !== card._id))
         closeAllPopups();
       })
       .catch(err => console.log(err));
@@ -130,7 +134,7 @@ function App() {
   function handleAddPlace({name, link}) {
     api.postCard({name, link})
       .then((card) => {
-        setCards([card, ...cards]);
+        setCards(currentCards => [card, ...currentCards]);
         closeAllPopups();
       })
       .catch(err => console.log(err));

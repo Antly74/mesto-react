@@ -12,11 +12,11 @@ function InputWithValidation ({isValid, onInputEvent, avatarRef, ...props}) {
   return (
     <>
       <input id={props.id} name={props.id} ref={avatarRef}
-        className={`popup__input ${isValid ? '': 'popup__input_type_error'}`}
+        className={`popup__input ${!isValid && 'popup__input_type_error'}`}
         {...props}
         onInput={handleInput}
       />
-      <span className={`popup__input-error ${isValid ? '': 'popup__input-error_visible'}`}
+      <span className={`popup__input-error ${!isValid && 'popup__input-error_visible'}`}
         id={`${props.id}-error`}
       >
         {errorText}

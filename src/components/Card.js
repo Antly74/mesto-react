@@ -25,7 +25,7 @@ function Card({card, onCardClick, onCardLike, onCardDelete}) {
       <div className="element__caption">
         <h2 className="element__caption-text">{card.name}</h2>
         <div className="element__like-block">
-          <button aria-label="Лайк" type="button" className={`element__button-like link ${isLiked ? 'element__button-like_active':''}`} onClick={handleLikeClick} />
+          <button aria-label="Лайк" type="button" className={`element__button-like link ${isLiked && 'element__button-like_active'}`} onClick={handleLikeClick} />
           <p className="element__like-count">{card.likes.length}</p>
         </div>
       </div>

@@ -29,7 +29,7 @@ function PopupWithForm ({title, name, children, isOpen, onClose, onSubmit, submi
   }
 
   return (
-    <div className={`popup popup_type_${name} ${isOpen ? 'popup_opened':''}`} onMouseDown={handleOverlayClick} >
+    <div className={`popup popup_type_${name} ${isOpen && 'popup_opened'}`} onMouseDown={handleOverlayClick} >
       <div className="popup__window">
         <h2 className="popup__header">{title}</h2>
         <form className="popup__form" name={name} noValidate onSubmit={handleSubmit}>
@@ -37,7 +37,7 @@ function PopupWithForm ({title, name, children, isOpen, onClose, onSubmit, submi
           <button
             aria-label={submitName}
             type="submit"
-            className={`popup__save-button link ${isValid ? '':'popup__save-button_disabled'}`}
+            className={`popup__save-button link ${!isValid && 'popup__save-button_disabled'}`}
             name="submit"
             disabled={!isValid}
           >
